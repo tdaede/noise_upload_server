@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 50000000}}).any());
+app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 2000000}}).any());
 app.post('/upload', function(req,res) {
   console.log('uploaded',req.file,req.files);
   res.send('ok');

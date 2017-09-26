@@ -1,0 +1,16 @@
+{
+  "name": "noise_upload_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "noise_upload_server.js",
+  "dependencies": {
+    "express": "^4.15.5",
+    "multer": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

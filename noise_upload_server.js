@@ -36,7 +36,7 @@ app.use('/upload',apiLimiter);
 app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 6000000}, storage: storage}).any());
 app.post('/upload', function(req,res) {
   console.log('uploaded',req.files);
-  fs.writeFile('./noise_uploads/' + path.parse(req.files[0].filename).name + '.txt', req.get('User-Agent'));
+  fs.writeFile('./noise_uploads/' + path.basename(req.files[0].filename, '.raw') + '.txt', req.get('User-Agent'));
   res.send('ok');
 });
 app.set('trust proxy', true);

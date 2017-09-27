@@ -32,7 +32,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/upload',apiLimiter);
-app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 2000000}, storage: storage}).any());
+app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 6000000}, storage: storage}).any());
 app.post('/upload', function(req,res) {
   console.log('uploaded',req.file,req.files);
   res.send('ok');

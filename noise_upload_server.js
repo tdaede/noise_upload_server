@@ -1,6 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var fs = require('fs');
+var path = require('path');
 var RateLimit = require('express-rate-limit');
 
 var app = express();
@@ -14,7 +15,7 @@ var storage = multer.diskStorage({
     cb(null, './noise_uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, req.ip + '-' + Date.now());
+    cb(null, req.ip + '-' + Date.now() + '.raw');
   }
 })
 
@@ -34,7 +35,8 @@ app.use(function(req, res, next) {
 app.use('/upload',apiLimiter);
 app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 6000000}, storage: storage}).any());
 app.post('/upload', function(req,res) {
-  console.log('uploaded',req.file,req.files);
+  console.log('uploaded',req.files);
+  fs.writeFile('./noise_uploads/' + path.parse(req.files[0].filename).name + '.txt', req.get('User-Agent'));
   res.send('ok');
 });
 app.set('trust proxy', true);

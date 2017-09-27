@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
     cb(null, './noise_uploads');
   },
   filename: function (req, file, cb) {
-    let kind = 'none';
+    var kind = 'none';
     if (req.body.kind) {
       kind = req.body.kind.substring(0,20).replace(/[^a-z0-9]/gi,'');
     }

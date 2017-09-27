@@ -3,6 +3,7 @@ var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
 var RateLimit = require('express-rate-limit');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -15,7 +16,11 @@ var storage = multer.diskStorage({
     cb(null, './noise_uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, req.ip + '-' + Date.now() + '.raw');
+    let kind = 'none';
+    if (req.body.kind) {
+      kind = req.body.kind.substring(0,20).replace(/[^a-z0-9]/gi,'');
+    }
+    cb(null, req.ip + '-' + Date.now() + '-' + kind + '.raw');
   }
 })
 
@@ -33,6 +38,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/upload',apiLimiter);
+app.use('/upload',bodyParser.urlencoded({extended: true}));
 app.use('/upload',multer({dest: './noise_uploads', limits: {files:1, fileSize: 6000000}, storage: storage}).any());
 app.post('/upload', function(req,res) {
   console.log('uploaded',req.files);
